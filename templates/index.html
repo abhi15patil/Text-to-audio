@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text to Audio (Marathi Support)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h1 class="mb-4">Text to Speech (मराठी समर्थित)</h1>
+    
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Select Language:</label>
+            <select name="language" class="form-select mb-3">
+                {% for code, name in languages.items() %}
+                    <option value="{{ code }}" {% if code == selected_lang %}selected{% endif %}>
+                        {{ name }}
+                    </option>
+                {% endfor %}
+            </select>
+            
+            <textarea class="form-control" name="text" rows="5" 
+                      placeholder="Enter text in selected language..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Convert to Audio</button>
+    </form>
+
+    {% if audio_file %}
+    <div class="mt-4">
+        <audio controls class="mb-2">
+            <source src="{{ url_for('static', filename='audio/' + audio_file) }}" type="audio/mpeg">
+        </audio>
+        <br>
+        <a href="{{ url_for('download', filename=audio_file) }}" class="btn btn-success">Download Audio</a>
+    </div>
+    {% endif %}
+</body>
+</html>
